@@ -16,29 +16,25 @@ class NoteCollector:
 
         expert_data_count = 0
         expert_plus_data_count = 0
-        music_count = 0
+        music_count = -1  # start at -1 because value is increased before it is used
 
         time_start = time.time()
         print("Process started, it will took some time . . . ")
 
         for x in os.walk(self.maps_directory):
 
+            # check if there is the difficulty required
+            take_music = False
+            do_check = True
             for ele in x[2]:
+                if do_check:
+                    if ele == 'ExpertPlus.dat' or ele == 'Expert.dat':
+                        take_music = True
+                        music_count += 1
+                        do_check = False
+                        # this prevent from increasing 2 times if the folder contains an Expert and an ExpertPlus level
 
-                # music
-                if ".egg" in ele or ".ogg" in ele:
-
-                    time_1 = time.time()
-
-                    music_path = x[0] + "/" + ele
-                    song = self.audio_collector.collect_music(music_path)
-
-                    with open(self.data_dir + "\\song  " + str(music_count), "wb") as music_data:
-                        pickle.dump(song, music_data)
-
-                    time_2 = time.time()
-                    print("New music data created : ",  ele.split(".")[0], round(time_2 - time_1, 2), "s")
-                    music_count += 1
+            for ele in x[2]:
 
                 if ele == 'ExpertPlus.dat':
 
@@ -66,6 +62,20 @@ class NoteCollector:
 
                     expert_data_count += 1
 
+                # music
+                elif ".egg" in ele or ".ogg" in ele:
+                    if take_music:
+                        time_1 = time.time()
+
+                        music_path = x[0] + "/" + ele
+                        song = self.audio_collector.collect_music(music_path)
+
+                        with open(self.data_dir + "\\song  " + str(music_count), "wb") as music_data:
+                            pickle.dump(song, music_data)
+
+                        time_2 = time.time()
+                        print("New music data created : ", ele.split(".")[0], music_count,  ", took :", round(time_2 - time_1, 2), "s")
+
         time_end = time.time()
         print("Expert map collected :", expert_data_count)
         print("ExpertPlus map collected :", expert_plus_data_count)
@@ -92,7 +102,8 @@ class NoteCollector:
 
 NC = NoteCollector("H:/temp cl", "H:/map data")
 NC.collect()
-for note in NC.load_data(1):
-    print(len(note))
+
+# for note in NC.load_data(1):
+    # print(len(note))
 
 
