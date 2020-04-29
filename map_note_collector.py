@@ -12,14 +12,15 @@ class NoteCollector:
         self.data_dir = data_dir
         self.audio_collector = audio_analysis.AudioCollector()
 
-    def collect(self):
+    def collect(self, stop_on_error=False):
 
         expert_data_count = 0
         expert_plus_data_count = 0
         music_count = -1  # start at -1 because value is increased before it is used
+        folder_count = 0
 
         time_start = time.time()
-        print("Process started, it will took some time . . . ")
+        print("Process started, it will take some time . . . ")
 
         for x in os.walk(self.maps_directory):
 
@@ -34,6 +35,16 @@ class NoteCollector:
                         do_check = False
                         # this prevent from increasing 2 times if the folder contains an Expert and an ExpertPlus level
 
+            if take_music:
+                # create a new folder
+                try:
+                    os.mkdir(self.data_dir + "\\data_set " + str(folder_count))
+
+                except FileExistsError:
+                    print("ERROR - File name data set already taken. Clean data folder and retry.")
+                    if stop_on_error:
+                        break
+
             for ele in x[2]:
 
                 if ele == 'ExpertPlus.dat':
@@ -44,7 +55,7 @@ class NoteCollector:
 
                         notes = [[note[0][1], note[1][1],  note[2][1],  note[3][1],  note[4][1][0]] for note in notes]
 
-                        with open(self.data_dir + "\\ExpertPlus " + str(expert_plus_data_count) + " - song " + str(music_count),  'wb') as data_file:
+                        with open(self.data_dir + "\\data_set " + str(folder_count) + "\\ExpertPlus " + str(expert_plus_data_count) + " - song " + str(music_count),  'wb') as data_file:
                             pickle.dump(notes, data_file)
 
                     expert_plus_data_count += 1
@@ -57,7 +68,7 @@ class NoteCollector:
 
                         notes = [[note[0][1], note[1][1],  note[2][1],  note[3][1],  note[4][1][0]] for note in notes]
 
-                        with open(self.data_dir + "\\Expert " + str(expert_data_count) + " - song " + str(music_count),  'wb') as data_file:
+                        with open(self.data_dir + "\\data_set " + str(folder_count) + "\\Expert " + str(expert_data_count) + " - song " + str(music_count),  'wb') as data_file:
                             pickle.dump(notes, data_file)
 
                     expert_data_count += 1
@@ -70,40 +81,70 @@ class NoteCollector:
                         music_path = x[0] + "/" + ele
                         song = self.audio_collector.collect_music(music_path)
 
-                        with open(self.data_dir + "\\song  " + str(music_count), "wb") as music_data:
+                        with open(self.data_dir + "\\data_set " + str(folder_count) + "\\song " + str(music_count), "wb") as music_data:
                             pickle.dump(song, music_data)
 
                         time_2 = time.time()
-                        print("New music data created : ", ele.split(".")[0], music_count,  ", took :", round(time_2 - time_1, 2), "s")
+                        print("New music data created : ", ele.split(".")[0], music_count,  ", took :", round(time_2 - time_1, 2), "s / total :",
+                              round(time_2 - time_start, 2), "s")
+
+            if take_music:
+                folder_count += 1
 
         time_end = time.time()
         print("Expert map collected :", expert_data_count)
         print("ExpertPlus map collected :", expert_plus_data_count)
         print("Successfully created", expert_data_count + expert_plus_data_count, "notes data")
 
-        print("Collected", music_count, "musics")
+        print("Collected", music_count + 1, "musics")
+        print("Created", folder_count, "folders")
         print("Took", round(time_end - time_start, 2), "s")
 
     def load_data(self, count=-1):
         if count == -1:
             for x in os.walk(self.data_dir):
-                for data_file in x[2]:
-                    with open(self.data_dir + "/" + data_file, "rb") as notes_file:
-                        yield pickle.load(notes_file)
+                for data_set in x[1]:
+                    for (_, _, map_data) in os.walk(self.data_dir + "/" + data_set):
+                        for data_file in map_data:
+
+                            if "Expert" in data_file:
+                                with open(self.data_dir + "/" + data_set + "/" + data_file, "rb") as notes_file:
+                                    note_data = pickle.load(notes_file)
+
+                                for (path, d_names, files_names) in os.walk(self.data_dir):
+                                    for file in files_names:
+                                        if file == data_file.split("- ")[-1]:
+                                            with open(self.data_dir + "/" + data_set + "/" + file, "rb") as song_file:
+                                                song_data = pickle.load(song_file)
+
+                                            yield note_data, song_data
         else:
             for x in os.walk(self.data_dir):
-                for data_file in x[2]:
-                    if count <= 0:
-                        break
-                    with open(self.data_dir + "/" + data_file, "rb") as notes_file:
-                        yield pickle.load(notes_file)
-                    count -= 1
+                for data_set in x[1]:
+                    for (_, _, map_data) in os.walk(self.data_dir + "/" + data_set):
+                        for data_file in map_data:
+
+                            if "Expert" in data_file:
+                                if count <= 0:
+                                    break
+                                with open(self.data_dir + "/" + data_set + "/" + data_file, "rb") as notes_file:
+                                    note_data = pickle.load(notes_file)
+
+                                for (path, d_names, files_names) in os.walk(self.data_dir):
+                                    for file in files_names:
+                                        if file == data_file.split("- ")[-1]:
+                                            with open(self.data_dir + "/" + data_set + "/" + file, "rb") as song_file:
+                                                song_data = pickle.load(song_file)
+
+                                            yield note_data, song_data
+                                            count -= 1
+
 
 
 NC = NoteCollector("H:/temp cl", "H:/map data")
-NC.collect()
+# NC.collect()
 
-# for note in NC.load_data(1):
-    # print(len(note))
+for (notes, song) in NC.load_data(1):
+    print(notes[0], song)
 
 
