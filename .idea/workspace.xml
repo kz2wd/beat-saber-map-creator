@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07d8af94-91d0-4e36-9d83-964b675cd096" name="Default Changelist" comment="" />
+    <list default="true" id="07d8af94-91d0-4e36-9d83-964b675cd096" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/audio_analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/map_note_collector.py" beforeDir="false" afterPath="$PROJECT_DIR$/map_note_collector.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +20,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1as6EOhEs03bD6U1iCspXQNEscc" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -22,10 +32,33 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/map_note_collector.py" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/audio analysis.py" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.map_note_collector">
+    <configuration name="audio_analysis" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="beat-saber-map-creator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="A:\Python\Python 3.7\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="A:\Python\Pycharm project\beat-saber-map-creator\audio_analysis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="beat-saber-map-creator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -71,6 +104,7 @@
     <list>
       <item itemvalue="Python.main" />
       <item itemvalue="Python.map_note_collector" />
+      <item itemvalue="Python.audio_analysis" />
     </list>
   </component>
   <component name="ServiceViewManager">
@@ -99,41 +133,41 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588008688428">
+    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588100326918">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588008688428" />
-    <state x="690" y="211" key="FileChooserDialogImpl" timestamp="1588008688030">
+    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588100326918" />
+    <state x="690" y="211" key="FileChooserDialogImpl" timestamp="1588100326024">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="211" key="FileChooserDialogImpl/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588008688030" />
-    <state width="1894" height="267" key="GridCell.Tab.0.bottom" timestamp="1588035568351">
+    <state x="690" y="211" key="FileChooserDialogImpl/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588100326024" />
+    <state width="1894" height="388" key="GridCell.Tab.0.bottom" timestamp="1588182413264">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="267" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588035568351" />
-    <state width="1334" height="267" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588009937245" />
-    <state width="1894" height="267" key="GridCell.Tab.0.center" timestamp="1588035568351">
+    <state width="1894" height="388" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588182413264" />
+    <state width="1334" height="267" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588092386162" />
+    <state width="1894" height="388" key="GridCell.Tab.0.center" timestamp="1588182413264">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="267" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588035568351" />
-    <state width="1334" height="267" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588009937245" />
-    <state width="1894" height="267" key="GridCell.Tab.0.left" timestamp="1588035568351">
+    <state width="1894" height="388" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588182413264" />
+    <state width="1334" height="267" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588092386157" />
+    <state width="1894" height="388" key="GridCell.Tab.0.left" timestamp="1588182413264">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="267" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588035568351" />
-    <state width="1334" height="267" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588009937245" />
-    <state width="1894" height="267" key="GridCell.Tab.0.right" timestamp="1588035568351">
+    <state width="1894" height="388" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588182413264" />
+    <state width="1334" height="267" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588092386153" />
+    <state width="1894" height="388" key="GridCell.Tab.0.right" timestamp="1588182413264">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1894" height="267" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588035568351" />
-    <state width="1334" height="267" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588009937245" />
+    <state width="1894" height="388" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588182413264" />
+    <state width="1334" height="267" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588092386160" />
     <state width="623" height="498" key="SwitcherDM" timestamp="1587665635326">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="623" height="498" key="SwitcherDM/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1587665635326" />
-    <state x="367" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1588021651021">
+    <state x="367" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1588171460768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="367" y="278" key="com.intellij.ide.util.TipDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588021651021" />
+    <state x="367" y="278" key="com.intellij.ide.util.TipDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588171460768" />
   </component>
 </project>
