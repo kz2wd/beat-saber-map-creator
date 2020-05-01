@@ -8,7 +8,7 @@ import numpy as np
 
 class AudioCollector:
     def collect_music(self, music_path, freq=1000):
-        song_data, sr = librosa.load(music_path,freq)
+        song_data, sr = librosa.load(music_path, freq)
         return song_data
 
 

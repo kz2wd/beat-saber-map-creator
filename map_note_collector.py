@@ -100,8 +100,9 @@ class NoteCollector:
         print("Created", folder_count, "folders")
         print("Took", round(time_end - time_start, 2), "s")
 
-    def load_data(self, count=-1):
-        if count == -1:
+    def load_data(self, count=1, len_data=10, note_per_s=5, freq=1000):
+        # len_data : in second
+        if count == -1:  # not up to date
             for x in os.walk(self.data_dir):
                 for data_set in x[1]:
                     for (_, _, map_data) in os.walk(self.data_dir + "/" + data_set):
@@ -136,15 +137,44 @@ class NoteCollector:
                                             with open(self.data_dir + "/" + data_set + "/" + file, "rb") as song_file:
                                                 song_data = pickle.load(song_file)
 
-                                            yield note_data, song_data
-                                            count -= 1
+                                            # now we have the song data and the notes data
+                                            # we are going to split them in more usable data of chosen length
 
+                                            time_counter = 0
+                                            previous_index = 0
+                                            for index, note in enumerate(note_data):
+                                                if count <= 0:
+                                                    break
+                                                if float(note[0]) > time_counter + len_data:
+
+                                                    notes_limit = note_data[previous_index:index]
+                                                    previous_index = index
+                                                    if len(notes_limit) < len_data * note_per_s:
+                                                        for i in range(len_data * note_per_s - len(notes_limit)):
+                                                            notes_limit.append([0, 0, 0, 0, 0])
+                                                    else:
+                                                        notes_limit = notes_limit[:len_data * note_per_s]
+
+                                                    for i in range(len(notes_limit)):
+                                                        notes_limit[i][0] = float(notes_limit[i][0]) % len_data
+                                                        notes_limit[i][1] = float(notes_limit[i][1])
+                                                        notes_limit[i][2] = float(notes_limit[i][2])
+                                                        notes_limit[i][3] = float(notes_limit[i][3])
+                                                        notes_limit[i][4] = float(notes_limit[i][4])
+
+                                                    song_limit = song_data[count * len_data * freq:(count + 1) * len_data * freq]
+                                                    yield song_limit, notes_limit
+                                                    count -= 1
 
 
 NC = NoteCollector("H:/temp cl", "H:/map data")
 # NC.collect()
 
-for (notes, song) in NC.load_data(1):
-    print(notes[0], song)
+
+for (song, notes) in NC.load_data(1):
+    print(len(notes), len(song))
+    print(song)
+
+
 
 
