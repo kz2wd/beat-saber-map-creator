@@ -4,6 +4,7 @@ import pickle
 import time
 
 import audio_analysis
+import numpy as np
 
 
 class NoteCollector:
@@ -101,7 +102,7 @@ class NoteCollector:
         print("Took", round(time_end - time_start, 2), "s")
 
     def load_data(self, count=1, len_data=10, note_per_s=5, freq=1000):
-        # len_data : in second
+        # len_data : in seconds
         if count == -1:  # not up to date
             for x in os.walk(self.data_dir):
                 for data_set in x[1]:
@@ -140,41 +141,92 @@ class NoteCollector:
                                             # now we have the song data and the notes data
                                             # we are going to split them in more usable data of chosen length
 
+                                            go_next_note_data = False
+                                            time_limit = len(song_data) / 1000
                                             time_counter = 0
                                             previous_index = 0
                                             for index, note in enumerate(note_data):
                                                 if count <= 0:
                                                     break
-                                                if float(note[0]) > time_counter + len_data:
+                                                if not go_next_note_data:
+                                                    if float(note[0]) >= time_limit:
+                                                        go_next_note_data = True
+                                                    if float(note[0]) - time_counter >= len_data:
+                                                        time_counter += len_data
 
-                                                    notes_limit = note_data[previous_index:index]
-                                                    previous_index = index
-                                                    if len(notes_limit) < len_data * note_per_s:
-                                                        for i in range(len_data * note_per_s - len(notes_limit)):
-                                                            notes_limit.append([0, 0, 0, 0, 0])
-                                                    else:
-                                                        notes_limit = notes_limit[:len_data * note_per_s]
+                                                        notes_limit = note_data[previous_index:index]
+                                                        previous_index = index
+                                                        if len(notes_limit) < len_data * note_per_s:
+                                                            for i in range(len_data * note_per_s - len(notes_limit)):
+                                                                notes_limit.append([0, 0, 0, 0, 0])
+                                                        else:
+                                                            notes_limit = notes_limit[:len_data * note_per_s]
 
-                                                    for i in range(len(notes_limit)):
-                                                        notes_limit[i][0] = float(notes_limit[i][0]) % len_data
-                                                        notes_limit[i][1] = float(notes_limit[i][1])
-                                                        notes_limit[i][2] = float(notes_limit[i][2])
-                                                        notes_limit[i][3] = float(notes_limit[i][3])
-                                                        notes_limit[i][4] = float(notes_limit[i][4])
+                                                        for i in range(len(notes_limit)):
+                                                            try:
+                                                                notes_limit[i][0] = float(notes_limit[i][0]) % len_data
+                                                                notes_limit[i][1] = int(notes_limit[i][1])
+                                                                notes_limit[i][2] = int(notes_limit[i][2])
+                                                                notes_limit[i][3] = int(notes_limit[i][3])
+                                                                notes_limit[i][4] = int(notes_limit[i][4])
+                                                            except ValueError:
+                                                                """print(notes_limit[i][4])
+                                                                print('indice :', i)
+                                                                print("pos note :", index)
+                                                                print("note :", note)
+                                                                print("file :", notes_file)"""
+                                                                notes_limit[i][4] = 0
+                                                                # I don't know why but in the file data set 143 the expert 124 has 20 broken notes
 
-                                                    song_limit = song_data[count * len_data * freq:(count + 1) * len_data * freq]
-                                                    yield song_limit, notes_limit
-                                                    count -= 1
+
+                                                        song_limit = song_data[count * len_data * freq:(count + 1) * len_data * freq]
+                                                        len_song_limit = len(song_limit)
+                                                        size_song = len_data * freq
+
+                                                        if len_song_limit < size_song:
+                                                            song_limit = np.append(song_limit, np.zeros(size_song - len_song_limit))
+
+                                                        yield song_limit, notes_limit
+                                                        count -= 1
+
+    def get_data_amount(self, len_data=10):  # NOT WORKING
+        data_count = 0
+        for x in os.walk(self.data_dir):
+            for data_set in x[1]:
+                for (_, _, map_data) in os.walk(self.data_dir + "/" + data_set):
+                    for data_file in map_data:
+
+                        if "Expert" in data_file:
+                            with open(self.data_dir + "/" + data_set + "/" + data_file, "rb") as notes_file:
+                                note_data = pickle.load(notes_file)
+
+                            for (path, d_names, files_names) in os.walk(self.data_dir):
+                                for file in files_names:
+                                    if file == data_file.split("- ")[-1]:
+                                        with open(self.data_dir + "/" + data_set + "/" + file, "rb") as song_file:
+                                            song_data = pickle.load(song_file)
+
+                                        # now we have the song data and the notes data
+                                        # we are going to split them in more usable data of chosen length
+
+                                        time_counter = 0
+                                        previous_index = 0
+                                        for index, note in enumerate(note_data):
+                                            if float(note[0]) - time_counter >= len_data:
+                                                time_counter += len_data
+
+                                                data_count += 1
+        return data_count
 
 
-NC = NoteCollector("H:/temp cl", "H:/map data")
+NC = NoteCollector("H:/CustomLevels", "H:/map data")
 # NC.collect()
+# print(NC.get_data_amount())
 
+"""count = 0
+for (song, notes) in NC.load_data(30, 10, 2):
+    print(notes)
+    count += 1
 
-for (song, notes) in NC.load_data(1):
-    print(len(notes), len(song))
-    print(song)
-
-
-
-
+print(count)
+"""
