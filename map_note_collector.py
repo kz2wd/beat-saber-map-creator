@@ -189,39 +189,9 @@ class NoteCollector:
                                                         yield song_limit, notes_limit
                                                         count -= 1
 
-    def get_data_amount(self, len_data=10):  # NOT WORKING
-        data_count = 0
-        for x in os.walk(self.data_dir):
-            for data_set in x[1]:
-                for (_, _, map_data) in os.walk(self.data_dir + "/" + data_set):
-                    for data_file in map_data:
-
-                        if "Expert" in data_file:
-                            with open(self.data_dir + "/" + data_set + "/" + data_file, "rb") as notes_file:
-                                note_data = pickle.load(notes_file)
-
-                            for (path, d_names, files_names) in os.walk(self.data_dir):
-                                for file in files_names:
-                                    if file == data_file.split("- ")[-1]:
-                                        with open(self.data_dir + "/" + data_set + "/" + file, "rb") as song_file:
-                                            song_data = pickle.load(song_file)
-
-                                        # now we have the song data and the notes data
-                                        # we are going to split them in more usable data of chosen length
-
-                                        time_counter = 0
-                                        previous_index = 0
-                                        for index, note in enumerate(note_data):
-                                            if float(note[0]) - time_counter >= len_data:
-                                                time_counter += len_data
-
-                                                data_count += 1
-        return data_count
-
 
 NC = NoteCollector("H:/CustomLevels", "H:/map data")
 # NC.collect()
-# print(NC.get_data_amount())
 
 """count = 0
 for (song, notes) in NC.load_data(30, 10, 2):

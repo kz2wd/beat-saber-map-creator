@@ -1,2 +1,3 @@
 
-training_data.npy
+NN_stuff/training_data.npy
+*.pth

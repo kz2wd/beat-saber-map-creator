@@ -1,6 +1,8 @@
 import sys
 import os
 
+import map_from_NN as mfNN
+
 
 class BsMapCreator:
     def __init__(self, custom_map_folder, map_name, map_cover, map_song, bps, difficulty='Expert', version="2.0.0"):
@@ -35,7 +37,7 @@ class BsMapCreator:
                     # act as a security to prevent creating 38 959 folders like me
 
         path = self.custom_map_folder + "/" + self.map_name + " " + str(counter) + "/"
-
+        """
         # info file
 
         file_dict = {"_version": self.version,
@@ -77,7 +79,7 @@ class BsMapCreator:
         # re-open the file and write the corrected data
         with open(info_file_path, "w") as f:
             f.write(data)
-
+        """
         # difficulties files
 
         diff_path_file = path + self.difficulty + ".DAT"
@@ -114,14 +116,13 @@ class BsMapCreator:
 
 
 creator = BsMapCreator('H:/create map here', 'my_super_map', "", "", 130)
+for i in range(10):
+    converter = mfNN.NotesFromMusic("H:/Grind and Hustle - Droeloe.egg")
+    lvl_notes = converter.music_to_notes()
 
-note_number = 20
-lvl_notes = [creator.create_note(i, i % 4, 1, 1, 1) for i in range(note_number)]
-lvl_notes += [creator.create_note(i, 0, i % 4, 1, 1) for i in range(note_number, 2 * note_number)]
-lvl_notes += [creator.create_note(i, 0, 0, i % 2, 1) for i in range(2 * note_number, 3 * note_number)]
-lvl_notes += [creator.create_note(i, 0, 0, 0, i % 8) for i in range(3 * note_number, 4 * note_number)]
+    lvl_notes = [creator.create_note(note[0], note[1], note[2], note[3], note[4])for note in lvl_notes]
 
-creator.add_notes(lvl_notes)
-creator.generate_map_files()
+    creator.add_notes(lvl_notes)
+    creator.generate_map_files()
 
 

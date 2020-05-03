@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d8af94-91d0-4e36-9d83-964b675cd096" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/NN_stuff/data_collector_NN_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NN_stuff/neural_network_class.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/map_from_NN.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/map_note_collector.py" beforeDir="false" afterPath="$PROJECT_DIR$/map_note_collector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/neural_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/neural_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/NN_stuff/neural_network_trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,11 +36,16 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/neural_network.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/map_from_NN.py" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.neural_network">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="A:\Python\Pycharm project\beat-saber-map-creator\NN_stuff" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.main">
     <configuration name="audio_analysis" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="beat-saber-map-creator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -78,6 +88,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="map_from_NN" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="beat-saber-map-creator" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="A:\Python\Python 3.7\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/map_from_NN.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="map_note_collector" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="beat-saber-map-creator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -99,7 +130,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="neural_network" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <configuration name="neural_network_trainer" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="beat-saber-map-creator" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -111,7 +142,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/neural_network.py" />
+      <option name="SCRIPT_NAME" value="A:\Python\Pycharm project\beat-saber-map-creator\NN_stuff\neural_network_trainer.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -124,7 +155,8 @@
       <item itemvalue="Python.audio_analysis" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.map_note_collector" />
-      <item itemvalue="Python.neural_network" />
+      <item itemvalue="Python.map_from_NN" />
+      <item itemvalue="Python.neural_network_trainer" />
     </list>
   </component>
   <component name="ServiceViewManager">
@@ -153,38 +185,38 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588274370854">
+    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588512889514">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588274370854" />
-    <state x="585" y="298" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588461536323">
+    <state x="414" y="161" key="#com.intellij.execution.impl.EditConfigurationsDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588512889514" />
+    <state x="585" y="298" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1588513261563">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="585" y="298" key="#com.intellij.fileTypes.FileTypeChooser/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588461536323" />
-    <state x="690" y="211" key="FileChooserDialogImpl" timestamp="1588274369892">
+    <state x="585" y="298" key="#com.intellij.fileTypes.FileTypeChooser/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588513261563" />
+    <state x="690" y="211" key="FileChooserDialogImpl" timestamp="1588512888907">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="211" key="FileChooserDialogImpl/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588274369892" />
-    <state width="1894" height="222" key="GridCell.Tab.0.bottom" timestamp="1588466142821">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="690" y="211" key="FileChooserDialogImpl/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588512888907" />
+    <state width="1334" height="222" key="GridCell.Tab.0.bottom" timestamp="1588537159192">
+      <screen x="1920" y="136" width="1360" height="728" />
     </state>
-    <state width="1894" height="222" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588466142821" />
-    <state width="1334" height="316" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588444656611" />
-    <state width="1894" height="222" key="GridCell.Tab.0.center" timestamp="1588466142821">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1894" height="222" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588536533871" />
+    <state width="1334" height="222" key="GridCell.Tab.0.bottom/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588537159192" />
+    <state width="1334" height="222" key="GridCell.Tab.0.center" timestamp="1588537159192">
+      <screen x="1920" y="136" width="1360" height="728" />
     </state>
-    <state width="1894" height="222" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588466142821" />
-    <state width="1334" height="316" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588444656611" />
-    <state width="1894" height="222" key="GridCell.Tab.0.left" timestamp="1588466142821">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1894" height="222" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588536533871" />
+    <state width="1334" height="222" key="GridCell.Tab.0.center/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588537159192" />
+    <state width="1334" height="222" key="GridCell.Tab.0.left" timestamp="1588537159192">
+      <screen x="1920" y="136" width="1360" height="728" />
     </state>
-    <state width="1894" height="222" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588466142821" />
-    <state width="1334" height="316" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588444656611" />
-    <state width="1894" height="222" key="GridCell.Tab.0.right" timestamp="1588466142821">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1894" height="222" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588536533871" />
+    <state width="1334" height="222" key="GridCell.Tab.0.left/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588537159192" />
+    <state width="1334" height="222" key="GridCell.Tab.0.right" timestamp="1588537159192">
+      <screen x="1920" y="136" width="1360" height="728" />
     </state>
-    <state width="1894" height="222" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588466142821" />
-    <state width="1334" height="316" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588444656611" />
+    <state width="1894" height="222" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588536533871" />
+    <state width="1334" height="222" key="GridCell.Tab.0.right/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588537159192" />
     <state width="1894" height="335" key="GridCell.Tab.1.bottom" timestamp="1588290541099">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -209,9 +241,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="367" y="278" key="com.intellij.ide.util.TipDialog/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588416488360" />
-    <state x="1920" y="136" width="1376" height="781" key="dock-window-1" timestamp="1588362529231">
+    <state x="1902" y="123" width="1372" height="781" maximized="true" key="dock-window-1" timestamp="1588529400452">
       <screen x="1920" y="136" width="1360" height="728" />
     </state>
+    <state x="1902" y="123" width="1372" height="781" maximized="true" key="dock-window-1/1920.136.1360.728/0.0.1920.1040@0.0.1920.1040" timestamp="1588529400452" />
     <state x="1920" y="136" width="1376" height="781" key="dock-window-1/1920.136.1360.728/0.0.1920.1040@1920.136.1360.728" timestamp="1588362529231" />
     <state x="539" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1588189952434">
       <screen x="0" y="0" width="1920" height="1040" />
