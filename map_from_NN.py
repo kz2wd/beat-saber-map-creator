@@ -52,11 +52,27 @@ class NotesFromMusic:
             if i == time_batch:
                 to_add += self.len_data
                 i = 0
-            notes.append([round((float(note[0]) % self.len_data) + to_add, 1), int(note[1] % 4), int(note[2] % 4), int(note[3] % 2), int(note[4] % 8)])
+            notes.append([round(abs(float(note[0])) + to_add, 1), min(abs(int(note[1])), 4), min(abs(int(note[2])), 4), min(abs(int(note[3])), 2), min(abs(int(note[4])), 8)])
 
         notes = sorted(notes)
 
         return notes
+
+    def clean_notes(self, notes, gap=1):  # not working
+        # gap between note in second
+        note_time = 3
+        adjust = 0
+        for i, note in enumerate(notes):
+
+            if note[0] - note_time < gap:
+                notes.pop(i - adjust)
+                adjust += 1
+            else:
+                note_time = notes[i - adjust][0]
+
+        print("Removed ", adjust, "Notes")
+        return notes
+
 
 """
 converter = NotesFromMusic("H:/Grind and Hustle - Droeloe.egg")

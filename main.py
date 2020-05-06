@@ -116,13 +116,14 @@ class BsMapCreator:
 
 
 creator = BsMapCreator('H:/create map here', 'my_super_map', "", "", 130)
-for i in range(10):
-    converter = mfNN.NotesFromMusic("H:/Grind and Hustle - Droeloe.egg")
-    lvl_notes = converter.music_to_notes()
+converter = mfNN.NotesFromMusic("H:/Grind and Hustle - Droeloe.egg")
+lvl_notes = converter.music_to_notes()
 
-    lvl_notes = [creator.create_note(note[0], note[1], note[2], note[3], note[4])for note in lvl_notes]
+print(lvl_notes)
 
-    creator.add_notes(lvl_notes)
-    creator.generate_map_files()
+lvl_notes = [creator.create_note(note[0], note[1], note[2], note[3], note[4])for note in lvl_notes]
+
+creator.add_notes(lvl_notes)
+creator.generate_map_files()
 
 

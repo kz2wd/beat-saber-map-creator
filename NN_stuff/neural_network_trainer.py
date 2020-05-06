@@ -18,14 +18,14 @@ import NN_stuff.neural_network_class as myNN
 
 
 LEN_DATA = 10
-NOTE_PER_S = 3
+NOTE_PER_S = 5
 FREQ = 1000
 DATA_AMOUNT = 10000
 # data_amount should be at least 20, else, there will be no test data and will return an error
 
-built_data = False
-do_train = False
-show_data = False
+built_data = True
+do_train = True
+show_data = True
 
 
 def train(net):
@@ -35,7 +35,7 @@ def train(net):
     for epoch in range(EPOCHS):
         for i in range(0, len(train_X), BATCH_SIZE):  # from 0, to the len of x, stepping BATCH_SIZE at a time.
             # print(f"{i}:{i+BATCH_SIZE}")
-            batch_X = train_X[i:i + BATCH_SIZE].view(-1, FREQ * LEN_DATA)
+            batch_X = train_X[i:i + BATCH_SIZE].view(-1, FREQ * LEN_DATA + 1)  # 1 = len(info_data)
             batch_y = train_y[i:i + BATCH_SIZE]
 
             batch_X, batch_y = batch_X.to(device), batch_y.to(device)  # very important line
@@ -52,7 +52,7 @@ def create_map_from_tests(net, amount=1):
     with torch.no_grad():
         if amount <= len(test_X):
             for i in range(amount):
-                net_out = net(test_X[i].view(-1, FREQ * LEN_DATA).to(device))[0]
+                net_out = net(test_X[i].view(-1, FREQ * LEN_DATA + 1).to(device))[0]  # 1 = len(info_data)
 
                 yield net_out
 
@@ -78,12 +78,12 @@ if do_train:
     print("Training data length :", len(training_data))
 
     loss_function = nn.MSELoss()
-    X = torch.Tensor([i[0] for i in training_data]).view(-1, FREQ * LEN_DATA)
+    X = torch.Tensor([i[0] for i in training_data]).view(-1, FREQ * LEN_DATA + 1)  # 1 = len(info_data)
     y = torch.Tensor([i[1] for i in training_data])
 
     VAL_PCT = 0.05
-    val_size = int(len(X) * VAL_PCT)
-
+    # val_size = int(len(X) * VAL_PCT)
+    val_size = 1
 
     train_X = X[:-val_size]
     train_y = y[:-val_size]

@@ -11,11 +11,11 @@ class MyDataHandler:
 
     def get_training_data(self, amount):
         self.training_data = []
-        for (song, notes) in mnc.NC.load_data(amount, self.len_data, self.note_per_s, self.freq):
+        for (song, notes, info) in mnc.NC.load_data(amount, self.len_data, self.note_per_s, self.freq):
             new_notes = []
             for note in notes:
                 new_notes += note
-            self.training_data.append([song, np.array(new_notes)])
+            self.training_data.append([np.insert(song, info[0], 0), np.array(new_notes)])
             # print(new_notes)
 
         np.random.shuffle(self.training_data)
