@@ -9,7 +9,7 @@ class Net(nn.Module):
         self.freq = freq
         super().__init__()
 
-        self.fc1 = nn.Linear(len_data * freq + 1, 3000)  # + 1 for the bpm value
+        self.fc1 = nn.Linear(len_data * freq, 3000)  # no bpm value added
         self.fc2 = nn.Linear(3000, 1500)
         self.fc3 = nn.Linear(1500, 1500)
         self.fc4 = nn.Linear(1500, self.note_per_s * len_data * 5)

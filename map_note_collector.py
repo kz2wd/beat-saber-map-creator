@@ -357,17 +357,31 @@ class NoteCollector:
                                 song_parts_counter += 1
 
 
-NC = NoteCollector("H:/temp cl", "H:/temp_data")
+NC = NoteCollector("H:/bd/project beat saber folders/CustomLevels", "H:/bd/project beat saber folders/map data")
 # NC.collect()
 
+# check averrage (i did that fast)
 """
-for (song, notes, info) in NC.load_data(3, 10, 2):
-    print(notes)
+averages = [0, 0, 0, 0, 0]
+
+my_nbs = []
+h = 0
+for (song, notes, info) in NC.load_data(5000, 10, 1):
+    for note in notes:
+        my_nbs.append([])
+        for i in range(5):
+            my_nbs[h].append(note[i])
+        h += 1
+
+sums = [0, 0, 0, 0, 0]
+length = len(my_nbs)
+for nb in my_nbs:
+    for j in range(5):
+        sums[j] += nb[j]
+
+for i in range(5):
+    sums[i] /= length
+
+print(sums)
 
 """
-a = 0
-for x in NC.load_data(3, 10, 5):
-    a += 1
-    print(a)
-    print("len song", len(x[0]))
-

@@ -1,5 +1,7 @@
 import numpy as np
 import map_note_collector as mnc
+import random
+random.seed(1)
 
 
 class MyDataHandler:
@@ -15,8 +17,8 @@ class MyDataHandler:
             new_notes = []
             for note in notes:
                 new_notes += note
-            self.training_data.append([np.insert(song, info[0], 0), np.array(new_notes)])
-            # print(new_notes)
+            if song.shape == (self.len_data * self.freq,):
+                self.training_data.append([song, np.array(new_notes)])
 
         np.random.shuffle(self.training_data)
-        np.save("NN_stuff/training_data.npy", self.training_data)
+        np.save("NN_stuff/NN_1/training_data.npy", self.training_data)

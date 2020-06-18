@@ -115,8 +115,8 @@ class BsMapCreator:
                 "_cutDirection": str(cut_direction)}
 
 
-creator = BsMapCreator('H:/create map here', 'my_super_map', "", "", 130)
-converter = mfNN.NotesFromMusic("H:/Grind and Hustle - Droeloe.egg")
+creator = BsMapCreator('H:/bd/project beat saber folders/create map here', 'my_super_map', "", "", 120)
+converter = mfNN.NotesFromMusic("H:/bd/project beat saber folders/Grind and Hustle - Droeloe.egg", 120)
 lvl_notes = converter.music_to_notes()
 
 print(lvl_notes)
