@@ -25,9 +25,8 @@ F = False
 built_data = T
 do_train = T
 show_data = T
-show_time = T
+show_time = F
 
-field_factor = [1, 3, 3, 10, 2]
 
 def train(net):
     optimizer = optim.Adam(net.parameters(), lr=0.001)
@@ -59,7 +58,7 @@ def create_map_from_tests(net, amount=1):
 
 
 if built_data:  # build training data
-    data_handler = data_collect.MyDataHandler(LEN_DATA, NOTE_PER_S, FREQ, field_factor)
+    data_handler = data_collect.MyDataHandler(LEN_DATA, NOTE_PER_S, FREQ)
     data_handler.get_training_data(DATA_AMOUNT)
     print("data built")
 

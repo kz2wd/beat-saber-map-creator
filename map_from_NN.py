@@ -9,13 +9,12 @@ import audio_analysis
 
 
 class NotesFromMusic:
-    def __init__(self, music_path, bpm, len_data=nnt.LEN_DATA, note_per_s=nnt.NOTE_PER_S, freq=nnt.FREQ, field_factor=nnt.field_factor):
+    def __init__(self, music_path, bpm, len_data=nnt.LEN_DATA, note_per_s=nnt.NOTE_PER_S, freq=nnt.FREQ):
         self.music_path = music_path
         self.bpm = bpm
         self.len_data = len_data
         self.note_per_s = note_per_s
         self.freq = freq
-        self.field_factor = field_factor
 
         if torch.cuda.is_available():
             self.device = torch.device("cuda:0")
@@ -59,12 +58,8 @@ class NotesFromMusic:
             if i == time_batch:
                 to_add += time_to_add
                 i = 0
-            # notes.append([round(abs(float(note[0])) + to_add, 1), min(abs(int(note[1])), 4), min(abs(int(note[2])), 4), min(abs(int(note[3])), 2), min(abs(int(note[4])), 8)])
-            notes.append([round(abs(float(note[0] / self.field_factor[0])) + to_add, 1),
-                min(abs(int(note[1] / self.field_factor[1])), 4),
-                min(abs(int(note[2] / self.field_factor[2])), 4),
-                min(abs(int(note[3] / self.field_factor[3])), 2),
-                min(abs(int(note[4] / self.field_factor[4])), 8)])
+            # if note[0] > 0 and note[1] > 0 and note[2] > 0 and note[3] > 0 and note[4] > 0:
+            notes.append([round(abs(float(note[0])) + to_add, 1), min(abs(int(note[1])), 4), min(abs(int(note[2])), 4), min(abs(int(note[3])), 2), min(abs(int(note[4])), 8)])
             # notes.append([round(abs(float(note[0])) + to_add, 1), abs(int(note[1])) % 4, abs(int(note[2])) % 4, abs(int(note[3])) % 2, abs(int(note[4])) % 8])
             #notes.append([note[0] + to_add, note[1], note[2], note[3],note[4]])
 
@@ -73,6 +68,7 @@ class NotesFromMusic:
         return notes
 
     def clean_notes(self, notes, gap=1):  # not working
+        print("Clean_notes is not working, don't use it yet")
         # gap between note in second
         note_time = 3
         adjust = 0

@@ -6,6 +6,8 @@ import time
 import audio_analysis
 import numpy as np
 
+import parameter_data_collector as pdc
+
 
 class NoteCollector:
     def __init__(self, maps_directory, data_dir):
@@ -269,10 +271,15 @@ class NoteCollector:
                                 # let's make the length of the list the good size
                                 if len_notes_limit < len_data * note_per_s:
                                     # prevent from having too short list
-                                    for i in range(len_data * note_per_s - len_notes_limit):
+                                    nbr_note_to_add = len_data * note_per_s - len_notes_limit
+                                    for i in range(nbr_note_to_add):
                                         notes_limit.append([0, 0, 0, 0, 0])
                                     # adding notes at the end of the list may not be the best solution
                                     # maybe think about inserting elements inside the list and not only at the end
+
+                                    # DATA COLLECTING
+                                    pdc.P_data_collect.note_added += nbr_note_to_add
+
                                 else:
                                     # prevent from having too long list
                                     notes_limit = notes_limit[
@@ -314,7 +321,7 @@ class NoteCollector:
                             if float(note[0]) - beat_counter >= beat_limit:
                                 beat_counter += beat_limit
 
-                                notes_limit = expert_note_data[previous_index:index]
+                                notes_limit = expertplus_note_data[previous_index:index]
                                 previous_index = index
 
                                 len_notes_limit = len(notes_limit)
@@ -335,10 +342,22 @@ class NoteCollector:
                                 # let's make the length of the list the good size
                                 if len_notes_limit < len_data * note_per_s:
                                     # prevent from having too short list
-                                    for i in range(len_data * note_per_s - len_notes_limit):
+                                    nbr_note_to_add = len_data * note_per_s - len_notes_limit
+                                    for i in range(nbr_note_to_add):
                                         notes_limit.append([0, 0, 0, 0, 0])
+
+                                        # I suppose that adding note full of 0's at the end might be stupid
+                                        # Now notes will be added at the beginning and with -1
+                                        # notes_limit.insert(0, [-1, -1, -1, -1, -1])
+
+                                        # So I tried and it didn't changed anything
+
                                     # adding notes at the end of the list may not be the best solution
                                     # maybe think about inserting elements inside the list and not only at the end
+
+                                    # DATA COLLECTING
+                                    pdc.P_data_collect.note_added += nbr_note_to_add
+
                                 else:
                                     # prevent from having too long list
                                     notes_limit = notes_limit[

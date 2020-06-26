@@ -115,13 +115,16 @@ class BsMapCreator:
                 "_cutDirection": str(cut_direction)}
 
 
-creator = BsMapCreator('H:/bd/project beat saber folders/create map here', 'my_super_map', "", "", 120)
-converter = mfNN.NotesFromMusic("H:/bd/project beat saber folders/Grind and Hustle - Droeloe.egg", 120)
+# creator = BsMapCreator('H:/bd/project beat saber folders/create map here', 'my_super_map', "", "", 120)
+# converter = mfNN.NotesFromMusic("H:/bd/project beat saber folders/Grind and Hustle - Droeloe.egg", 120)
+# with another music
+creator = BsMapCreator('H:/bd/project beat saber folders/create map here', 'my_super_map', "", "", 150)
+converter = mfNN.NotesFromMusic("H:/bd/project beat saber folders/Just A Gent x smle - Leave It All (feat. Calica).ogg", 150)
 lvl_notes = converter.music_to_notes()
 
 print(lvl_notes)
 
-lvl_notes = [creator.create_note(note[0], note[1], note[2], note[3], note[4])for note in lvl_notes]
+lvl_notes = [creator.create_note(note[0], note[1], note[2], note[3], note[4]) for note in lvl_notes]
 
 creator.add_notes(lvl_notes)
 creator.generate_map_files()
