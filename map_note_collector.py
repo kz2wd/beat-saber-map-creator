@@ -15,6 +15,13 @@ class NoteCollector:
         self.data_dir = data_dir
         self.audio_collector = audio_analysis.AudioCollector()
 
+        self.info_data = None
+        self.count = None
+        self.len_data = None
+        self.note_per_s = None
+        self.freq = None
+        self.song_data = None
+
     def collect(self, stop_on_error=False):
 
         expert_data_count = 0
@@ -198,6 +205,11 @@ class NoteCollector:
                                                     count -= 1
 
     def load_data(self, count=1, len_data=10, note_per_s=5, freq=1000):
+        self.count = count
+        self.len_data = len_data
+        self.note_per_s = note_per_s
+        self.freq = freq
+
         for (path, folders, files) in os.walk(self.data_dir):
 
             expert_collected = False
@@ -218,162 +230,97 @@ class NoteCollector:
 
                 if "song" in data_file:
                     with open(path + "/" + data_file, "rb") as song_file:
-                        song_data = pickle.load(song_file)
+                        self.song_data = pickle.load(song_file)
                         song_collected = True
 
                 if "info file" in data_file:
                     with open(path + "/" + data_file, "rb") as info_file:
-                        info_data = pickle.load(info_file)
+                        self.info_data = pickle.load(info_file)
                         info_collected = True
 
                     # now we have the song data and the notes data
                     # we are going to split them in more usable data of chosen length
 
-                if song_collected and info_collected:
-                    if expert_collected:
+            if song_collected and info_collected:
+                if expert_collected:
+                    for data in self.proceed_data(expert_note_data):
+                        yield data
 
-                        beat_per_s = info_data[0] / 60  # bpm / 60 = beat per second
+                if expertplus_collected:
+                    for data in self.proceed_data(expertplus_note_data):
+                        yield data
 
-                        beat_limit = len_data * beat_per_s
+    def proceed_data(self, difficulty_note_data):
+        beat_per_s = self.info_data[0] / 60  # bpm / 60 = beat per second
 
-                        song_parts_counter = 0
+        beat_limit = self.len_data * beat_per_s
 
-                        beat_counter = 0
-                        previous_index = 0
+        song_parts_counter = 0
 
-                        for index, note in enumerate(expert_note_data):
+        beat_counter = 0
+        previous_index = 0
 
-                            if count <= 0:
-                                break
+        for index, note in enumerate(difficulty_note_data):
 
-                            # if there is a note past the 'batch' we are creating, create it
-                            if float(note[0]) - beat_counter >= beat_limit:
-                                beat_counter += beat_limit
+            if self.count <= 0:
+                break
 
-                                notes_limit = expert_note_data[previous_index:index]
-                                previous_index = index
+            # if there is a note past the 'batch' we are creating, create it
+            if float(note[0]) - beat_counter >= beat_limit:
+                beat_counter += beat_limit
 
-                                len_notes_limit = len(notes_limit)
+                notes_limit = difficulty_note_data[previous_index:index]
+                previous_index = index
 
-                                # convert str to float or int
-                                for i in range(len(notes_limit)):
-                                    try:
-                                        notes_limit[i][0] = float(notes_limit[i][0]) % beat_limit
-                                        notes_limit[i][1] = int(notes_limit[i][1])
-                                        notes_limit[i][2] = int(notes_limit[i][2])
-                                        notes_limit[i][3] = int(notes_limit[i][3])
-                                        notes_limit[i][4] = int(notes_limit[i][4])
-                                    except ValueError:
-                                        notes_limit[i][4] = 0
-                                        # it may happens that a note doesn't have a beat time
-                                        # maybe, fix it in the data creation
+                len_notes_limit = len(notes_limit)
 
-                                # let's make the length of the list the good size
-                                if len_notes_limit < len_data * note_per_s:
-                                    # prevent from having too short list
-                                    nbr_note_to_add = len_data * note_per_s - len_notes_limit
-                                    for i in range(nbr_note_to_add):
-                                        notes_limit.append([0, 0, 0, 0, 0])
-                                    # adding notes at the end of the list may not be the best solution
-                                    # maybe think about inserting elements inside the list and not only at the end
+                # convert str to float or int
+                for i in range(len(notes_limit)):
+                    try:
+                        notes_limit[i][0] = float(notes_limit[i][0]) % beat_limit
+                        notes_limit[i][1] = int(notes_limit[i][1])
+                        notes_limit[i][2] = int(notes_limit[i][2])
+                        notes_limit[i][3] = int(notes_limit[i][3])
+                        notes_limit[i][4] = int(notes_limit[i][4])
+                    except ValueError:
+                        notes_limit[i][4] = 0
+                        # it may happens that a note doesn't have a beat time
+                        # maybe, fix it in the data creation
 
-                                    # DATA COLLECTING
-                                    pdc.P_data_collect.note_added += nbr_note_to_add
+                # let's make the length of the list the good size
+                if len_notes_limit < self.len_data * self.note_per_s:
+                    # prevent from having too short list
+                    nbr_note_to_add = self.len_data * self.note_per_s - len_notes_limit
+                    for i in range(nbr_note_to_add):
+                        notes_limit.append([0, 0, 0, 0, 0])
+                    # adding notes at the end of the list may not be the best solution
+                    # maybe think about inserting elements inside the list and not only at the end
 
-                                else:
-                                    # prevent from having too long list
-                                    notes_limit = notes_limit[
-                                                  :len_data * note_per_s]  # cutting may not be the best solution
-                                    # maybe think about popping elements inside the list and not only the end
+                    # DATA COLLECTING
+                    pdc.P_data_collect.note_added += nbr_note_to_add
 
-                                # now, our notes are good, let's do the song part
-                                song_limit = song_data[
-                                             song_parts_counter * len_data * freq:(song_parts_counter + 1) * len_data * freq]
-                                # we just have to reduce the length of the song because it can't be too short
-                                """explanation :
-                                If you take 30 sec of data, and your music is 20 sec long, what will happen is
-                                that, the note part won't be created if there is no note past the length of data you
-                                choose, and so there will be no song to return.
-                                
-                                So now with a real example, if you take 30 sec of data, and your music is 2 min and 20
-                                sec long, you will create 4 batches of data, and then, because there is no notes after
-                                the 5th, it won't be created."""
+                else:
+                    # prevent from having too long list
+                    notes_limit = notes_limit[
+                                  :self.len_data * self.note_per_s]  # cutting may not be the best solution
+                    # maybe think about popping elements inside the list and not only the end
 
-                                yield song_limit, notes_limit, info_data
-                                count -= 1
-                                song_parts_counter += 1
+                # now, our notes are good, let's do the song part
+                song_limit = self.song_data[
+                             song_parts_counter * self.len_data * self.freq:(song_parts_counter + 1) * self.len_data * self.freq]
+                # we just have to reduce the length of the song because it can't be too short
+                """explanation :
+                If you take 30 sec of data, and your music is 20 sec long, what will happen is
+                that, the note part won't be created if there is no note past the length of data you
+                choose, and so there will be no song to return.
 
-                    if expertplus_collected:
-                        beat_per_s = info_data[0] / 60  # bpm / 60 = beat per second
+                So now with a real example, if you take 30 sec of data, and your music is 2 min and 20
+                sec long, you will create 4 batches of data, and then, because there is no notes after
+                the 5th, it won't be created."""
 
-                        beat_limit = len_data * beat_per_s
-
-                        song_parts_counter = 0
-
-                        beat_counter = 0
-                        previous_index = 0
-
-                        for index, note in enumerate(expertplus_note_data):
-
-                            if count <= 0:
-                                break
-
-                            if float(note[0]) - beat_counter >= beat_limit:
-                                beat_counter += beat_limit
-
-                                notes_limit = expertplus_note_data[previous_index:index]
-                                previous_index = index
-
-                                len_notes_limit = len(notes_limit)
-
-                                # convert str to float or int
-                                for i in range(len(notes_limit)):
-                                    try:
-                                        notes_limit[i][0] = float(notes_limit[i][0]) % beat_limit
-                                        notes_limit[i][1] = int(notes_limit[i][1])
-                                        notes_limit[i][2] = int(notes_limit[i][2])
-                                        notes_limit[i][3] = int(notes_limit[i][3])
-                                        notes_limit[i][4] = int(notes_limit[i][4])
-                                    except ValueError:
-                                        notes_limit[i][4] = 0
-                                        # it may happens that a note doesn't have a beat time
-                                        # maybe, fix it in the data creation
-
-                                # let's make the length of the list the good size
-                                if len_notes_limit < len_data * note_per_s:
-                                    # prevent from having too short list
-                                    nbr_note_to_add = len_data * note_per_s - len_notes_limit
-                                    for i in range(nbr_note_to_add):
-                                        notes_limit.append([0, 0, 0, 0, 0])
-
-                                        # I suppose that adding note full of 0's at the end might be stupid
-                                        # Now notes will be added at the beginning and with -1
-                                        # notes_limit.insert(0, [-1, -1, -1, -1, -1])
-
-                                        # So I tried and it didn't changed anything
-
-                                    # adding notes at the end of the list may not be the best solution
-                                    # maybe think about inserting elements inside the list and not only at the end
-
-                                    # DATA COLLECTING
-                                    pdc.P_data_collect.note_added += nbr_note_to_add
-
-                                else:
-                                    # prevent from having too long list
-                                    notes_limit = notes_limit[
-                                                  :len_data * note_per_s]  # cutting may not be the best solution
-                                    # maybe think about popping elements inside the list and not only the end
-
-                                # now, our notes are good, let's do the song part
-                                song_limit = song_data[
-                                             song_parts_counter * len_data * freq:(
-                                                                                              song_parts_counter + 1) * len_data * freq]
-
-                                # check on the expert procedure if you want information about what is happening here
-
-                                yield song_limit, notes_limit, info_data
-                                count -= 1
-                                song_parts_counter += 1
+                yield song_limit, notes_limit, self.info_data
+                self.count -= 1
+                song_parts_counter += 1
 
 
 NC = NoteCollector("H:/bd/project beat saber folders/CustomLevels", "H:/bd/project beat saber folders/map data")
